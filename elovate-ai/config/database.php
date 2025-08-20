@@ -41,6 +41,12 @@ return [
             'journal_mode' => null,
             'synchronous' => null,
         ],
+        
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'dsn'      => env('MONGODB_URI', 'mongodb://127.0.0.1:27017'),
+            'database' => env('MONGODB_DATABASE', 'elovate_ai'),
+        ],
 
         'mysql' => [
             'driver' => 'mysql',
@@ -147,7 +153,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
