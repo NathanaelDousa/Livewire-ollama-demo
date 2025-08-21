@@ -14,3 +14,4 @@ Route::get('/products', ProductIndex::class);
 
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
+Route::post('/ollama', [ProductController::class, 'askOllama']);

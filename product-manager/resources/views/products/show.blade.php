@@ -11,13 +11,13 @@
             @endforeach
         </div>
         <div class="mt-6">
-    <button 
-        id="ollamaButton"
-        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow"
-    >
-        AI suggestions
-    </button>
-</div>
+            <button 
+                id="ollamaButton"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
+                AI suggestions
+            </button>
+        </div>
+        <div id="ollamaResponse" class="mt-4 p-4 bg-gray-100 rounded hidden"></div>
     </div>
 
     <!-- Rechterkant: afbeelding -->
