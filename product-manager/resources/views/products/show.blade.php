@@ -11,12 +11,19 @@
             @endforeach
         </div>
         <div class="mt-6">
-            <button 
-                id="ollamaButton"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
-                AI suggestions
+            <button id="ask-ollama" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Vraag Ollama
             </button>
+            <div id="ollama-response" class="mt-4 text-gray-800"></div>
+            <div id="ollama-spinner" class="mt-2 hidden">
+                <svg class="animate-spin h-6 w-6 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <p class="text-center text-gray-500">Ollama is aan het denken...</p>
+            </div>
         </div>
+
         <div id="ollamaResponse" class="mt-4 p-4 bg-gray-100 rounded hidden"></div>
     </div>
 
@@ -25,3 +32,32 @@
         <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-auto rounded-lg object-cover">
     </div>
 </div>
+
+<script>
+document.getElementById('ask-ollama').addEventListener('click', function() {
+    const spinner = document.getElementById('ollama-spinner');
+    const responseDiv = document.getElementById('ollama-response');
+
+    spinner.classList.remove('hidden'); // show spinner
+    responseDiv.innerHTML = ''; // clear previous response
+
+    fetch('/ollama', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ productId: '{{ $product->id }}' })
+    })
+    .then(res => res.json())
+    .then(data => {
+        spinner.classList.add('hidden'); // hide spinner
+        responseDiv.innerHTML = `<p>${data.answer}</p>`;
+    })
+    .catch(err => {
+        spinner.classList.add('hidden'); // hide spinner
+        responseDiv.innerHTML = `<p class="text-red-600">Er is iets misgegaan: ${err.message}</p>`;
+    });
+});
+</script>
+
